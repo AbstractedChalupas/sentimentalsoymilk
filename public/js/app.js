@@ -10,11 +10,13 @@ angular.module('app', ['app.auth', 'app.trip', 'app.landing', 'app.create', 'app
 
 
 .config(function ($routeProvider) {
+
   $routeProvider
     // landing page
     .when('/', {
       templateUrl: './js/templates/landing.html',
       controller: 'LandingController'
+      // console.log('auth', app.services);
     })
     // login page
     .when('/login', {
@@ -29,16 +31,32 @@ angular.module('app', ['app.auth', 'app.trip', 'app.landing', 'app.create', 'app
     // trip creation page
     .when('/create', {
       templateUrl: './js/templates/createTrip.html',
-      controller: 'CreateTripController'
+      controller: 'CreateTripController',
+      resolve: {
+        data: function(Auth) {
+          return Auth.checkLoggedin();
+        }
+      }
     })
     // myTrips page
     .when('/myTrips', {
       templateUrl: './js/templates/mytrips.html',
-      controller: 'MyTripsController'
+      controller: 'MyTripsController',
+      resolve: {
+        data: function(Auth) {
+          return Auth.checkLoggedin();
+        }
+      }
     })
     // splash page
     .when('/splash', {
       templateUrl: './js/templates/splash.html',
+      resolve: {
+        data: function(Auth) {
+          return Auth.checkLoggedin();
+        }
+      }
+
     })
     // single trip page
     .when('/trip/:id', {

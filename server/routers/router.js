@@ -9,6 +9,7 @@ module.exports = function(app, express) {
 
   //####### Documentation in Controller
   app.post('/api/login', userController.login);
+  app.get('/api/loggedin', userController.authCheck);
   app.post('/api/signup', userController.signup);
   app.get('/logout', userController.logout);
   //originally stored data if it was the first time

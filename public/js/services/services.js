@@ -120,7 +120,7 @@ angular.module('app.services',[])
 
 
 // this factory is for authentication which is not impemented in the app yet.
-.factory('Auth', function($http, $location){
+.factory('Auth', function($http, $location, $rootScope){
   var auth = {};
   auth.user = { password : '' };
   auth.pass = '';
@@ -173,6 +173,18 @@ angular.module('app.services',[])
       auth.user = result.data;
     })
   };
+
+  auth.checkLoggedin = function() {
+    return $http.get('/api/loggedin').then(function(user) {
+      if (user) {
+        $rootScope.user = user;
+      }
+    }, function(err) {
+      console.log('error authentcating user', err);
+      $location.url('/login');
+    });
+  };
+
 
   return auth;
 });
